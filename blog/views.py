@@ -48,7 +48,6 @@ def delete(request, blog_id):
 def comment_add(request, blog_id):
     if request.method == "POST":
         post = Blog.objects.get(pk=blog_id)
-
         comment = Comment()
         comment.user = request.user
         comment.body = request.POST['body']
@@ -71,3 +70,12 @@ def comment_edit(request, comment_id):
                 'comment' : comment
             }
             return render(request, 'comment_edit.html',context)
+
+def comment_delete(request, comment_id):
+    comment = get_object_or_404(Comment,pk=comment_id)
+    if request.user == comment.user:
+        if request.method == "POST":
+            post_id = comment.post.id
+            comment.delete()
+            return redirect('/blog/' + str(post_id) )
+    return HttpResponse('잘못된 접근입니다.')
