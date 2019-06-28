@@ -16,17 +16,17 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
-import blog.views
-from django.conf.urls.static import static
-from django.conf import settings
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', blog.views.home, name="home"),   
-    path('portfolio/', include('portfolio.urls')), 
-    path('accounts/', include('accounts.urls')),
-    path('blog/', include('blog.urls')),
-    
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('', views.home, name="home"),
+    path('<int:blog_id>',views.detail, name="detail"),
+    path('create', views.create, name="create"), #함수도 부를수 있다. 굳이 html만 부르는건 아니다.
+    path('edit/<int:blog_id>', views.edit, name="edit"),
+    path('delete/<int:blog_id>', views.delete, name="delete"),
 
-urlpatterns+=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('comment_add/<int:blog_id>', views.comment_add, name='comment_add'),
+    path('comment_edit/<int:comment_id>', views.comment_edit, name='comment_edit'),
+    path('comment_delete/<int:comment_id>', views.comment_delete, name='comment_delete'),
+    
+] 

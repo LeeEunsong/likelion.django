@@ -1,5 +1,4 @@
-{% extends 'base.html' %}
-{% block body %}
+
 
 {% for blog in posts %}
     <div class="container">
@@ -33,4 +32,3 @@
     <a href="?page={{posts.paginator.num_pages}}">Last</a>
     {%endif%}
   </div>
-{% endblock %}
